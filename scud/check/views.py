@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import render
 import qrcode
 import io
+from django.views.generic import ListView
 
 
 def index(request):
@@ -29,7 +30,6 @@ class GenerateQRCode(View):
         img.save(response, 'PNG')
 
         return response
-
 
 
 
