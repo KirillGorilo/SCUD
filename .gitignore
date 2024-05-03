@@ -8,7 +8,6 @@
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -32,7 +31,7 @@ __pycache__/
 # C extensions
 *.so
 
-.venv
+.venv   
 
 # Distribution / packaging
 .Python

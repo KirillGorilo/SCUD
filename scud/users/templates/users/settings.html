@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Настройки аккаунта</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-error">{{ login_forms.non_field_errors }}</div>
+    {{ login_forms|crispy }}
+    <p><button type="submit" class="btn btn-primary">Войти</button></p>
+</form>
+{% endblock content %}

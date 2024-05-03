@@ -11,7 +11,8 @@ class Department(models.Model):
 
 
 class Student(User):
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    middle_name = models.CharField(max_length=50, blank=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     course_number = models.IntegerField(default=0)
     description = models.TextField(blank=True)
     identity_qrcode = models.CharField(max_length=50, blank=True)
@@ -26,9 +27,3 @@ class Student(User):
     class Meta:
         verbose_name = "Student"  # Указываем желаемое отображаемое имя модели
         verbose_name_plural = "Students"
-
-class Guard(User):
-    
-    guard_id = models.CharField(max_length=20)
-    class Meta:
-        verbose_name = "Guard"  # Указываем желаемое отображаемое имя модели
