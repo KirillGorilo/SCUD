@@ -1,12 +1,20 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 
 {% block content %}
 <h1>Настройки аккаунта</h1>
+<h3>Задайте ФИО и остальные данные</h3>
 <form method="post">
     {% csrf_token %}
-    <div class="form-error">{{ login_forms.non_field_errors }}</div>
-    {{ login_forms|crispy }}
-    <p><button type="submit" class="btn btn-primary">Войти</button></p>
+    <p>Логин: {{ my_user.username }}</p>
+    {{ settings_form.username }}
+    <p>Фамилия: {{ my_user.last_name }}</p>
+    {{ settings_form.last_name }}
+    <p>Имя: {{ my_user.first_name }}</p>
+    {{ settings_form.username }}
+    <p>Отчество: {{ my_user.middle_name }}</p>
+    {{ settings_form.middle_name }}
+    <br>
+    <br>
+    <p><button type="submit" class="btn btn-primary">Сохранить</button></p>
 </form>
 {% endblock content %}

@@ -55,3 +55,32 @@ class RegisterUserForm(forms.ModelForm):
         if user.filter(email=email).exists():
             raise forms.ValidationError("Такой E-mail уже существует!")
         return email
+
+
+class SettingsForm(forms.ModelForm):
+    username = forms.CharField(
+        label="Логин",
+        max_length=25,
+    )
+    last_name = forms.CharField(
+        label="Фамилия",
+        max_length=25,
+    )
+    first_name = forms.CharField(
+        label="Имя",
+        max_length=25,
+    )
+    middle_name = forms.CharField(
+        label="Отчество",
+        max_length=25,
+    )
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = Student.objects.all()
+        if user.filter(username=username).exists():
+            raise forms.ValidationError("Такой логин уже существует!")
+        return username
+
+    class Meta:
+        model = Student
+        fields = ('username', 'last_name', 'first_name', 'middle_name')
