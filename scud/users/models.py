@@ -10,7 +10,9 @@ class Department(models.Model):
         return self.department
 
 
-class Student(User):
+class User(AbstractUser):
+    # first_name = models.CharField(max_length=50)
+    # last_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, blank=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     course_number = models.IntegerField(default=0)
@@ -22,8 +24,4 @@ class Student(User):
     def save(self, *args, **kwargs):
         if not self.identity_qrcode:
             self.identity_qrcode = self.generate_identity()
-        super(Student, self).save(*args, **kwargs) 
-
-    class Meta:
-        verbose_name = "Student"  # Указываем желаемое отображаемое имя модели
-        verbose_name_plural = "Students"
+        super(User, self).save(*args, **kwargs)

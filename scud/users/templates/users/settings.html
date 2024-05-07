@@ -5,16 +5,23 @@
 <h3>Задайте ФИО и остальные данные</h3>
 <form method="post">
     {% csrf_token %}
-    <p>Логин: {{ my_user.username }}</p>
-    {{ settings_form.username }}
-    <p>Фамилия: {{ my_user.last_name }}</p>
-    {{ settings_form.last_name }}
-    <p>Имя: {{ my_user.first_name }}</p>
-    {{ settings_form.username }}
-    <p>Отчество: {{ my_user.middle_name }}</p>
-    {{ settings_form.middle_name }}
+    <p>Логин: {{ user.username }}</p>
+    {{ form.username }}
+    <p>Фамилия: {{ user.last_name }}</p>
+    {{ form.last_name }}
+    <p>Имя: {{ user.first_name}}</p>
+    {{ form.first_name }}
+    <p>Отчество: {{ user.middle_name }}</p>
+    {{ form.middle_name }}
     <br>
     <br>
+    {% if form.errors %}
+    <ul>
+        {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <p><button type="submit" class="btn btn-primary">Сохранить</button></p>
 </form>
 {% endblock content %}
