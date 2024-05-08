@@ -44,23 +44,15 @@ def register(request):
 
 
 def settings(request):
-    try:
-        my_user = User.objects.get(id=request.user.id)
-    except:
-        return render(request, "base.html")
-
     if request.method == "POST":
         form = SettingsForm(request.POST, instance=request.user)
+        print(request.POST)
         if form.is_valid():
-            # my_user.first_name = form.cleaned_data['first_name']
-            # my_user.middle_name = form.cleaned_data['middle_name']
-            # my_user.last_name = form.cleaned_data['last_name']
-            # my_user.save()
             form.save()
-            return render(request, 'users/settings.html', {'form': form, 'user': my_user})
-        else:
             return render(request, 'users/settings.html', {'form': form})
+        else:
+            print(form.errors)
     else:
-        form = SettingsForm()
+        form = SettingsForm(instance=request.user)
 
     return render(request, 'users/settings.html', {'form': form})

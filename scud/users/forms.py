@@ -83,22 +83,21 @@ class SettingsForm(forms.ModelForm):
         required=False,
     )
 
+    # def clean_username(self):
+    #     username = self.cleaned_data['username']
+    #     user = User.objects.all()
+    #     if user.filter(username=username).exists():
+    #         raise forms.ValidationError("Такой логин уже существует!")
+    #     return username
+
     def clean(self):
         cleaned_data = super().clean()
-        username = cleaned_data.get("username")
-        first_name = cleaned_data.get("first_name")
-        last_name = cleaned_data.get("last_name")
-        middle_name = cleaned_data.get('middle_name')
-        if not first_name and not last_name and not username and not middle_name:
-            raise forms.ValidationError("Ни одна форма не была заполнена!")
-        return cleaned_data
+        username = cleaned_data.get('username')
+        if not username:
+            self.add_error('username', 'Логин не может быть пустым')
+            raise forms.ValidationError("Логин не может быть пустым")
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        user = User.objects.all()
-        if user.filter(username=username).exists():
-            raise forms.ValidationError("Такой логин уже существует!")
-        return username
+        return cleaned_data
 
     class Meta:
         model = User
