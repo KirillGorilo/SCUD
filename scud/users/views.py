@@ -3,11 +3,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from users.forms import LoginUserForm, RegisterUserForm, SettingsForm
 from django.urls import reverse
-from .models import User
-
-
-def index(request):
-    return render(request, "base.html")
 
 
 def login_user(request):
@@ -46,12 +41,9 @@ def register(request):
 def settings(request):
     if request.method == "POST":
         form = SettingsForm(request.POST, instance=request.user)
-        print(request.POST)
         if form.is_valid():
             form.save()
             return render(request, 'users/settings.html', {'form': form})
-        else:
-            print(form.errors)
     else:
         form = SettingsForm(instance=request.user)
 

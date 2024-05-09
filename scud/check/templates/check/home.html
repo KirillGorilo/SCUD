@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        <h1>Добро пожаловать в СКУД СИСТЕМУ: <p class="text-primary">{{ user.last_name }} {{ user.first_name }}  {{ user.middle_name }}</p></h1>
+        <p class="text-danger">Ваш персональный QR-code меняется каждые 3 минуты. Для идентификации вас как студента, задайте ФИО в настройках аккаунта или обратитесь к администратору.
+            Чтобы получить актуальный QR-code, обновите страницу браузера.</p>
+        <img src="{% url 'generate_qr_code' %}" alt="QR Code">
+        <a class="nav-link link-primary" href="{% url "update_id" %}">Обновить QR_code</a>
+    {% else %}
+        <a class="nav-link link-danger" href="{% url "register" %}">Вы не зарегистрированы, чтобы получить персональный QR-code, необходимо зарегистрироваться в системе!!!</a>
+    {% endif %}
+{% endblock %}

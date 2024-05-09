@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        <h1>Пользователь не найден</h1>
+    {% else %}
+        <a class="nav-link link-danger" href="{% url "register" %}">Для этого действия необходимо зарегистрироваться в системе!!!</a>
+    {% endif %}
+{% endblock %}

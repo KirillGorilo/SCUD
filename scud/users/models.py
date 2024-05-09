@@ -22,6 +22,10 @@ class User(AbstractUser):
     def generate_identity(self):
         return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(50))
 
+    def update_id(self):
+        self.identity_qrcode = self.generate_identity()
+        self.save()
+
     def save(self, *args, **kwargs):
         if not self.identity_qrcode:
             self.identity_qrcode = self.generate_identity()

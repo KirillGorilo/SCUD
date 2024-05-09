@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        {% if user %}
+            <h1>Пользователь успешно найден</h1>
+            <p>Студент: {{ user.username }} | {{ user.last_name }} {{ user.first_name }} {{ user.middle_name }}</p>
+        {% else %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+    {% else %}
+        <a class="nav-link link-danger" href="{% url "register" %}">Для этого действия необходимо зарегистрироваться в системе!!!</a>
+    {% endif %}
+{% endblock %}

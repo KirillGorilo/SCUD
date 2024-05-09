@@ -1,5 +1,8 @@
 from pathlib import Path
 
+# CELERY
+CELERY_BROKER_URL = 'redis://127.0.0.1:16379/0'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,7 +16,7 @@ SECRET_KEY = 'django-insecure-kg32jhnh7vycmobgj72t+xuc_cxap_vxcao5ep!j3rykxzg+_5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -29,7 +32,6 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
     "crispy_bootstrap5",
-
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,16 @@ TEMPLATES = [
         },
     },
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 WSGI_APPLICATION = 'scud.wsgi.application'
 
@@ -129,3 +141,9 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_USER_MODEL = 'users.User'
+
+
+#CELERY commands
+# celery -A scud beat -l INFO
+# celery -A scud worker -l INFO -P solo
+

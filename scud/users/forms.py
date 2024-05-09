@@ -1,8 +1,6 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from crispy_forms.helper import FormHelper
-from django.contrib.auth import get_user_model
 from .models import User
+
 
 class LoginUserForm(forms.Form):
     username = forms.CharField(
@@ -110,4 +108,4 @@ class SettingsForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "last_name", "first_name", "middle_name")
+        fields = ("username", "last_name", "first_name", "middle_name", "department")
