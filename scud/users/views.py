@@ -4,6 +4,16 @@ from django.http import HttpResponseRedirect
 from users.forms import LoginUserForm, RegisterUserForm, SettingsForm
 from django.urls import reverse
 
+from users.models import User
+from rest_framework import permissions, viewsets
+from users.serializers import UserSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from .serializers import AuthCustomTokenSerializer
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -48,3 +58,30 @@ def settings(request):
         form = SettingsForm(instance=request.user)
 
     return render(request, 'users/settings.html', {'form': form})
+
+
+# REST API METHODS
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
+class HelloView(APIView):
+    def get(self, request):
+        return Response({"message": "Hello", "qrcode": "kfjsajpo432432"}, status=status.HTTP_200_OK)
+
+
+class CustomAuthToken(ObtainAuthToken):
+    serializer_class = AuthCustomTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            "token": token.key,
+            "login": user.username
+        })

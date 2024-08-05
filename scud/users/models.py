@@ -3,6 +3,10 @@ import string
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 
 class Department(models.Model):
@@ -30,3 +34,9 @@ class User(AbstractUser):
         if not self.identity_qrcode:
             self.identity_qrcode = self.generate_identity()
         super(User, self).save(*args, **kwargs)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)

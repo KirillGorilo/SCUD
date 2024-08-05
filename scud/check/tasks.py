@@ -8,3 +8,6 @@ def update_user_ids():
     users = User.objects.all()
     for user in users:
         user.update_id()
+
+
+
